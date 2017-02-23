@@ -1,18 +1,17 @@
 package main
 
 import (
-	"github.com/zwopir/gonag"
-	"github.com/zwopir/check_osquery/osquery"
 	"github.com/prometheus/common/log"
+	"github.com/zwopir/check_osquery/osquery"
+	"github.com/zwopir/gonag"
 	"text/template"
 
-	"flag"
 	"bytes"
-	"strconv"
+	"flag"
 	"fmt"
 	"os"
+	"strconv"
 )
-
 
 func main() {
 	const (
@@ -20,14 +19,14 @@ func main() {
 	)
 	var (
 		timeoutString = flag.String("timeout", "5s", "osquery timeout. Value must be time.ParseDuration'able")
-		query = flag.String("query", "", "osquery string. Must return a single osqueryResult. The value of the config parameter 'resultkey' is used " +
+		query         = flag.String("query", "", "osquery string. Must return a single osqueryResult. The value of the config parameter 'resultkey' is used "+
 			"in the threshold evaluation (default see there). All other key/value pairs can be used in the output text template as {{ index . \"key\" }}")
-		resultKey = flag.String("resultkey", "count(*)", "osqueryResult key. Specifies the key within the osquery osqueryResult set that holds the " +
+		resultKey = flag.String("resultkey", "count(*)", "osqueryResult key. Specifies the key within the osquery osqueryResult set that holds the "+
 			"value for threshold comparision.")
-		osqueryExecutable = flag.String("osquery","osqueryi", "osquery executable")
-		templateString = flag.String("template", defaultTemplateString, "nagios osqueryResult text template")
-		warn = flag.String("warn", "", "warning threshold. Must be empty or parseable as float64")
-		crit = flag.String("crit", "", "critical threshold. Must be empty or parseable as float64")
+		osqueryExecutable = flag.String("osquery", "osqueryi", "osquery executable")
+		templateString    = flag.String("template", defaultTemplateString, "nagios osqueryResult text template")
+		warn              = flag.String("warn", "", "warning threshold. Must be empty or parseable as float64")
+		crit              = flag.String("crit", "", "critical threshold. Must be empty or parseable as float64")
 	)
 	flag.Parse()
 
@@ -77,7 +76,6 @@ func main() {
 		}
 	}
 
-
 	resultText := bytes.NewBuffer([]byte(``))
 	template.Execute(resultText, &data)
 
@@ -91,7 +89,7 @@ func main() {
 	}
 	nagiosResult := gonag.CheckResult{
 		ReturnCode: severity,
-		Text: resultText.String(),
+		Text:       resultText.String(),
 		Perfdata: gonag.Perfdata{
 			{
 				Label: "result",
@@ -103,13 +101,12 @@ func main() {
 				UOM: resultUOM,
 			},
 			{
-				Label: "runtime",
-				Value: runtime,
-				Thresholds: gonag.Thresholds{				},
-				UOM: timeUOM,
+				Label:      "runtime",
+				Value:      runtime,
+				Thresholds: gonag.Thresholds{},
+				UOM:        timeUOM,
 			},
 		},
-
 	}
 	outputString, err := nagiosResult.RenderCheckResult(gonag.NagiosMRPEFormatter)
 	if err != nil {
@@ -123,8 +120,8 @@ func exitUnknown(msgFormat string, a ...interface{}) {
 	log.Errorf(msgFormat, a...)
 	r := gonag.CheckResult{
 		ReturnCode: gonag.UNKNOWN,
-		Text: fmt.Sprintf(msgFormat, a...),
-		Perfdata: gonag.Perfdata{},
+		Text:       fmt.Sprintf(msgFormat, a...),
+		Perfdata:   gonag.Perfdata{},
 	}
 	returnString, _ := r.RenderCheckResult(gonag.NagiosMRPEFormatter)
 	fmt.Println(returnString)
