@@ -19,7 +19,7 @@ func main() {
 	)
 	var (
 		timeoutString = flag.String("timeout", "5s", "osquery timeout. Value must be time.ParseDuration'able")
-		query         = flag.String("query", "", "osquery string. Must return a single osqueryResult. The value of the config parameter 'resultkey' is used "+
+		query         = flag.String("query", "", "osquery string. Must return a single osquery result. The value of the config parameter 'resultkey' is used "+
 			"in the threshold evaluation (default see there). All other key/value pairs can be used in the output text template as {{ index . \"key\" }}")
 		resultKey = flag.String("resultkey", "count(*)", "osqueryResult key. Specifies the key within the osquery osqueryResult set that holds the "+
 			"value for threshold comparision.")
