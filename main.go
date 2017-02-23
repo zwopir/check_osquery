@@ -16,7 +16,7 @@ import (
 
 func main() {
 	const (
-		defaultTemplateString = `osquery returned result = {{ index . "result(*)" }}`
+		defaultTemplateString = `osquery returned result = {{ index . "count(*)" }}`
 	)
 	var (
 		timeoutString = flag.String("timeout", "5s", "osquery timeout. Value must be time.ParseDuration'able")
