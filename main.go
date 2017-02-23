@@ -53,12 +53,11 @@ func main() {
 	data := osqueryResult.Items[0]
 
 	if _, ok := data[*resultKey]; !ok {
-		// TODO: adapt error message
-		exitUnknown("osquery osqueryResult doesn't contain a key 'result'")
+		exitUnknown("osquery osqueryResult doesn't contain a key %s", resultKey)
 	}
 	result, err := strconv.ParseFloat(data[*resultKey], 32)
 	if err != nil {
-		exitUnknown("result key/value pair can't be parsed as float")
+		exitUnknown("%s key/value pair can't be parsed as float", resultKey)
 	}
 	severity := gonag.OK
 	if *warn != "" {
