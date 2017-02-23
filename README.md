@@ -46,9 +46,9 @@ go build
   -template 'there are {{ index . "count(*)" }} httpd processes running'
 ```
 
-output
+example output
 
 ```
-WARNING - there are 15 httpd processes running|result=91;70;;; runtime=0.050957s;;;;
+WARNING - there are 15 httpd processes running|result=91;10;50;; runtime=0.050957s;;;;
 exit status 1
 ```
