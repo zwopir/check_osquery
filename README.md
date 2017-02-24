@@ -59,7 +59,7 @@ select count(*) from (select username, count(uid) as uid_count from users group 
 ```
 
 ```bash
-./check_osquery - query 'select count(*) from (select username, count(uid) as uid_count from users group by uid having uid_count > 1);' \
+./check_osquery -query 'select count(*) from (select username, count(uid) as uid_count from users group by uid having uid_count > 1);' \
    -crit 1 \
    -template 'found {{ index . "count(*)" }} users with duplicate uids'
 ```
