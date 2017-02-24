@@ -7,7 +7,7 @@ The query is expected to return a single result set. A result key is then evalua
 (tested with go1.7)
 
 ```bash
-go get -v
+go get -v github.com/zwopir/check_osquery
 go build
 ```
 
@@ -52,3 +52,15 @@ example output
 WARNING - there are 15 httpd processes running|result=91;10;50;; runtime=0.050957s;;;;
 exit status 1
 ```
+
+### find duplicate uids
+```sql
+select count(*) from (select username, count(uid) as uid_count from users group by uid having uid_count > 1);
+```
+
+```bash
+./check_osquery - query 'select count(*) from (select username, count(uid) as uid_count from users group by uid having uid_count > 1);' \
+   -crit 1 \
+   -template 'found {{ index . "count(*)" }} users with duplicate uids'
+```
+   
