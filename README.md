@@ -37,7 +37,7 @@ go build
 ```
 
 ### Examples
-#### get number of httpd processes
+### get number of httpd processes
 
 ```bash
 ./check_osquery -query 'select count(*) from processes where name like "%httpd%" ;' \
